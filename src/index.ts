@@ -45,14 +45,13 @@ bot.command("start", async (ctx: Context) => {
   //@ts-ignore
   const client = await getClient(ctx.message?.from.username);
   if (client) {
-    bot.telegram.sendMessage(
-      //@ts-ignore
-      client.chatID,
-      //@ts-ignore
-      client.message,
-      //@ts-ignore
-      client.replyMarkup
-    );
+    for (let i = 0; i < client.menus.length; i++) {
+      bot.telegram.sendMessage(
+        client.menus[i].chatID,
+        client.menus[i].message,
+        client.menus[i].replyMarkup
+      );
+    }
   }
 });
 
@@ -76,30 +75,22 @@ bot.command("start", async (ctx: Context) => {
 //   }
 // });
 
-// cron.schedule("0 */4 * * *", async () => {
-//   console.log("Initiating cron job");
-//   const clients = await getClient();
-//   for (let i = 0; i < clients.length; i++) {
-//     console.log("client: ", clients[i]);
-//     if (clients[i].posts) {
-//       for (const post of clients[i].posts) {
-//         console.log("post: ", post);
-//         if (post.photo) {
-//           bot.telegram.sendPhoto(
-//             post.channelID ? post.channelID : clients[i].chatID,
-//             post.photo,
-//             { caption: post.text }
-//           );
-//         } else {
-//           bot.telegram.sendMessage(
-//             post.channelID ? post.channelID : clients[i].chatID,
-//             post.text
-//           );
-//         }
-//       }
-//     }
-//   }
-// });
+cron.schedule("0 */4 * * *", async () => {
+  const clients = await getClient();
+  for (let i = 0; i < clients.length; i++) {
+    if (clients[i].posts) {
+      for (const post of clients[i].posts) {
+        if (post.photo) {
+          bot.telegram.sendPhoto(post.channelID, post.photo, {
+            caption: post.text,
+          });
+        } else {
+          bot.telegram.sendMessage(post.channelID, post.text);
+        }
+      }
+    }
+  }
+});
 
 const port = process.env.PORT || 3000;
 expressApp.get("/", (req, res) => {
