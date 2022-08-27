@@ -4,5 +4,4 @@ const client2 = require("./actionLibrary/-1001678640360.actions");
 
 const actions = [client1, client2];
 
-//@ts-ignore
 module.exports = Composer.action(actions);

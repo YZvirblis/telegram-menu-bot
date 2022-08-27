@@ -35,11 +35,11 @@ bot.on("message", async (ctx: Context, next: any) => {
   next(ctx);
 });
 
-// bot.command("test", async (ctx: Context) => {
-//   //@ts-ignore
-//   const client = await getClient(ctx.message?.from.username);
-//   ctx.reply(`Hello there ${client?.username}`);
-// });
+bot.command("test", async (ctx: Context) => {
+  //@ts-ignore
+  const client = await getClient(ctx.message?.from.username);
+  ctx.reply(`Hello there ${client?.username}`);
+});
 
 bot.command("start", async (ctx: Context) => {
   //@ts-ignore
