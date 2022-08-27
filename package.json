@@ -34,6 +34,6 @@
     "mongodb": "^4.9.0",
     "node-cron": "^3.0.2",
     "rimraf": "^3.0.2",
-    "telegraf": "^3.40.0"
+    "telegraf": "^3.38.0"
   }
 }
