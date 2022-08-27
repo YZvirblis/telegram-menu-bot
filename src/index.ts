@@ -28,7 +28,7 @@ bot.on("message", async (ctx: Context, next: any) => {
     //@ts-ignore
     if (ctx.message.photo) {
       //@ts-ignore
-      await ctx.reply(`${ctx.message.photo[0].file_id}`);
+      ctx.reply(`${ctx.message.photo[0].file_id}`);
     }
   }
   next(ctx);
@@ -37,13 +37,13 @@ bot.on("message", async (ctx: Context, next: any) => {
 bot.command("test", async (ctx: Context) => {
   const client = await getClient(ctx.message?.from.username);
   //@ts-ignore
-  await ctx.reply(`Hello there ${client?.username}`);
+  ctx.reply(`Hello there ${client?.username}`);
 });
 
 bot.command("start", async (ctx: Context) => {
   const client = await getClient(ctx.message?.from.username);
   if (client) {
-    await bot.telegram.sendMessage(
+    bot.telegram.sendMessage(
       //@ts-ignore
       client.chatID,
       //@ts-ignore
