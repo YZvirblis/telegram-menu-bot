@@ -82,34 +82,35 @@ bot.use(actions);
 bot.launch();
 bot.catch((e: Error) => console.log(" ~ * ~ * ~ BOT ERROR: ", e));
 
+cron.schedule("* * * * *", async () => {
+  const clients = await getClient();
+  console.log(`Clients: ${clients ? true : false}`);
+  //@ts-ignore
+  for (const client of clients) {
+    console.log(`Client: ${client.username}`);
+    if (client) {
+      for (const post of client.posts) {
+        if (post.photo) {
+          bot.telegram.sendPhoto(
+            post.channelID ? post.channelID : client.chatID,
+            post.photo,
+            { caption: post.text }
+          );
+        } else {
+          bot.telegram.sendMessage(
+            post.channelID ? post.channelID : client.chatID,
+            post.text
+          );
+        }
+      }
+    }
+  }
+});
+
 const port = process.env.PORT || 3000;
 expressApp.get("/", (req, res) => {
   res.send("Hello World!");
 });
 expressApp.listen(port, () => {
   console.log(`Listening on port ${port}`);
-
-  cron.schedule("* * * * *", async () => {
-    console.log("running a task every minute");
-    const clients = await getClient();
-    //@ts-ignore
-    for (const client of clients) {
-      if (client) {
-        for (const post of client.posts) {
-          if (post.photo) {
-            bot.telegram.sendPhoto(
-              post.channelID ? post.channelID : client.chatID,
-              post.photo,
-              { caption: post.text }
-            );
-          } else {
-            bot.telegram.sendMessage(
-              post.channelID ? post.channelID : client.chatID,
-              post.text
-            );
-          }
-        }
-      }
-    }
-  });
 });
