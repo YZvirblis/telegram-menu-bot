@@ -18,7 +18,7 @@ const getClient = async (username: string | undefined) => {
   return client;
 };
 
-bot.on("message", (ctx: Context, next: any) => {
+bot.on("message", async (ctx: Context, next: any) => {
   if (ctx.message?.from.username === "YuraZvirblis") {
     //@ts-ignore
     if (ctx.message.photo) {
