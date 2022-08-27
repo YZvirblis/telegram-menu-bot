@@ -46,11 +46,15 @@ bot.command("start", async (ctx: Context) => {
   const client = await getClient(ctx.message?.from.username);
   if (client) {
     for (let i = 0; i < client.menus.length; i++) {
-      bot.telegram.sendMessage(
-        client.menus[i].chatID,
-        client.menus[i].message,
-        client.menus[i].replyMarkup
-      );
+      try {
+        bot.telegram.sendMessage(
+          client.menus[i].chatID,
+          client.menus[i].message,
+          client.menus[i].replyMarkup
+        );
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
 });
@@ -76,6 +80,7 @@ bot.command("start", async (ctx: Context) => {
 // });
 
 cron.schedule("0 */4 * * *", async () => {
+  // cron.schedule("* * * * *", async () => {
   const clients = await getClient();
   for (let i = 0; i < clients.length; i++) {
     if (clients[i].posts) {
@@ -90,6 +95,10 @@ cron.schedule("0 */4 * * *", async () => {
       }
     }
   }
+});
+
+bot.hears("initiate", async (ctx: Context) => {
+  console.log(ctx);
 });
 
 const port = process.env.PORT || 3000;

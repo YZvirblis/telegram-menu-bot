@@ -1,0 +1,5 @@
+1). Create client object.
+2). Create Menu Actions 
+3). Add bot to relevant channels and groups.
+4). Give bot Admin permissions.
+5). Send a message to the bot from a group.
