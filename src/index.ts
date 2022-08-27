@@ -74,38 +74,34 @@ bot.command("start", async (ctx: Context) => {
 //   }
 // });
 
-bot.command("help", (ctx: Context) => {
-  ctx.reply("List of commands goes here");
-});
+// bot.command("help", (ctx: Context) => {
+//   ctx.reply("List of commands goes here");
+// });
 
-bot.use(actions);
-bot.launch();
-bot.catch((e: Error) => console.log(" ~ * ~ * ~ BOT ERROR: ", e));
-
-cron.schedule("* * * * *", async () => {
-  const clients = await getClient();
-  console.log(`Clients: ${clients ? true : false}`);
-  //@ts-ignore
-  for (const client of clients) {
-    console.log(`Client: ${client.username}`);
-    if (client) {
-      for (const post of client.posts) {
-        if (post.photo) {
-          bot.telegram.sendPhoto(
-            post.channelID ? post.channelID : client.chatID,
-            post.photo,
-            { caption: post.text }
-          );
-        } else {
-          bot.telegram.sendMessage(
-            post.channelID ? post.channelID : client.chatID,
-            post.text
-          );
-        }
-      }
-    }
-  }
-});
+// cron.schedule("* * * * *", async () => {
+//   const clients = await getClient();
+//   console.log(`Clients: ${clients ? true : false}`);
+//   //@ts-ignore
+//   for (const client of clients) {
+//     console.log(`Client: ${client.username}`);
+//     if (client) {
+//       for (const post of client.posts) {
+//         if (post.photo) {
+//           bot.telegram.sendPhoto(
+//             post.channelID ? post.channelID : client.chatID,
+//             post.photo,
+//             { caption: post.text }
+//           );
+//         } else {
+//           bot.telegram.sendMessage(
+//             post.channelID ? post.channelID : client.chatID,
+//             post.text
+//           );
+//         }
+//       }
+//     }
+//   }
+// });
 
 const port = process.env.PORT || 3000;
 expressApp.get("/", (req, res) => {
@@ -114,3 +110,7 @@ expressApp.get("/", (req, res) => {
 expressApp.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
+
+bot.use(actions);
+bot.launch();
+bot.catch((e: Error) => console.log(" ~ * ~ * ~ BOT ERROR: ", e));
