@@ -1,7 +1,6 @@
 import { Composer } from "telegraf";
-const client1 = require("./actionLibrary/-1001638859125.actions");
-const client2 = require("./actionLibrary/-1001678640360.actions");
+const YuraZvirblis1001705288428 = require("./actionLibrary/YuraZvirblis.-1001705288428.actions");
 
-const actions = [client1, client2];
+const actions = [YuraZvirblis1001705288428];
 
 module.exports = Composer.action(actions);
