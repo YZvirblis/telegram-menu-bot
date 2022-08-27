@@ -3,13 +3,10 @@ import connectToDatabase from "./config/dbConfig";
 const actions = require("./actions/botActions");
 import { Context } from "telegraf";
 import bot from "./config/botConfig";
-import { telegrafThrottler } from "telegraf-throttler";
 import express from "express";
 import cron from "node-cron";
 
 const expressApp = express();
-const throttler = telegrafThrottler();
-bot.use(throttler);
 bot.use(actions);
 
 const getClient = async (username?: string | undefined) => {
@@ -29,7 +26,9 @@ const getClient = async (username?: string | undefined) => {
 bot.on("message", async (ctx: Context, next: any) => {
   //@ts-ignore
   if (ctx.message?.from.username === "YuraZvirblis") {
+    //@ts-ignore
     if (ctx.message.photo) {
+      //@ts-ignore
       ctx.reply(`${ctx.message.photo[0].file_id}`);
     }
   }
