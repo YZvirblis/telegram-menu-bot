@@ -1,6 +1,6 @@
 import mongoDB from "mongodb";
 import connectToDatabase from "./config/dbConfig";
-import * as actions from "./actions/botActions";
+const actions = require("./actions/botActions");
 import { Context } from "telegraf";
 import bot from "./config/botConfig";
 import { telegrafThrottler } from "telegraf-throttler";
@@ -10,37 +10,40 @@ import cron from "node-cron";
 const expressApp = express();
 const throttler = telegrafThrottler();
 bot.use(throttler);
+bot.use(actions);
 
 const getClient = async (username?: string | undefined) => {
   const db = await connectToDatabase();
-  //@ts-ignore
-  const clients: mongoDB.Collection = await db.collection("Clients");
   if (username) {
+    //@ts-ignore
+    const clients: mongoDB.Collection = await db.collection("Clients");
     const client = await clients.findOne({ username: `${username}` });
     return client;
   } else {
-    return clients;
+    //@ts-ignore
+    const fetchedClients = await db.collection("Clients").find().toArray();
+    return fetchedClients;
   }
 };
 
 bot.on("message", async (ctx: Context, next: any) => {
+  //@ts-ignore
   if (ctx.message?.from.username === "YuraZvirblis") {
-    //@ts-ignore
     if (ctx.message.photo) {
-      //@ts-ignore
       ctx.reply(`${ctx.message.photo[0].file_id}`);
     }
   }
   next(ctx);
 });
 
-bot.command("test", async (ctx: Context) => {
-  const client = await getClient(ctx.message?.from.username);
-  //@ts-ignore
-  ctx.reply(`Hello there ${client?.username}`);
-});
+// bot.command("test", async (ctx: Context) => {
+//   //@ts-ignore
+//   const client = await getClient(ctx.message?.from.username);
+//   ctx.reply(`Hello there ${client?.username}`);
+// });
 
 bot.command("start", async (ctx: Context) => {
+  //@ts-ignore
   const client = await getClient(ctx.message?.from.username);
   if (client) {
     bot.telegram.sendMessage(
@@ -74,27 +77,23 @@ bot.command("start", async (ctx: Context) => {
 //   }
 // });
 
-// bot.command("help", (ctx: Context) => {
-//   ctx.reply("List of commands goes here");
-// });
-
-// cron.schedule("* * * * *", async () => {
+// cron.schedule("0 */4 * * *", async () => {
+//   console.log("Initiating cron job");
 //   const clients = await getClient();
-//   console.log(`Clients: ${clients ? true : false}`);
-//   //@ts-ignore
-//   for (const client of clients) {
-//     console.log(`Client: ${client.username}`);
-//     if (client) {
-//       for (const post of client.posts) {
+//   for (let i = 0; i < clients.length; i++) {
+//     console.log("client: ", clients[i]);
+//     if (clients[i].posts) {
+//       for (const post of clients[i].posts) {
+//         console.log("post: ", post);
 //         if (post.photo) {
 //           bot.telegram.sendPhoto(
-//             post.channelID ? post.channelID : client.chatID,
+//             post.channelID ? post.channelID : clients[i].chatID,
 //             post.photo,
 //             { caption: post.text }
 //           );
 //         } else {
 //           bot.telegram.sendMessage(
-//             post.channelID ? post.channelID : client.chatID,
+//             post.channelID ? post.channelID : clients[i].chatID,
 //             post.text
 //           );
 //         }
@@ -111,6 +110,5 @@ expressApp.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
 
-bot.use(actions);
 bot.launch();
 bot.catch((e: Error) => console.log(" ~ * ~ * ~ BOT ERROR: ", e));

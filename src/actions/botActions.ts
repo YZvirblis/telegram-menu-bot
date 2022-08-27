@@ -1,9 +1,7 @@
-import client1 from "./actionLibrary/-1001638859125.actions";
-import client2 from "./actionLibrary/-1001678640360.actions";
+import { Composer } from "telegraf";
+const client1 = require("./actionLibrary/-1001638859125.actions");
+const client2 = require("./actionLibrary/-1001678640360.actions");
 
-const actions = {
-  ...client1,
-  ...client2,
-};
+const actions = [client1, client2];
 
-export default { ...actions };
+module.exports = Composer.action(actions);
