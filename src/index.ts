@@ -35,11 +35,11 @@ bot.on("message", async (ctx: Context, next: any) => {
   next(ctx);
 });
 
-bot.command("test", async (ctx: Context) => {
-  //@ts-ignore
-  const client = await getClient(ctx.message?.from.username);
-  ctx.reply(`Hello there ${client?.username}`);
-});
+// bot.command("test", async (ctx: Context) => {
+//   //@ts-ignore
+//   const client = await getClient(ctx.message?.from.username);
+//   ctx.reply(`Hello there ${client?.username}`);
+// });
 
 bot.command("start", async (ctx: Context) => {
   //@ts-ignore
@@ -59,26 +59,6 @@ bot.command("start", async (ctx: Context) => {
   }
 });
 
-// bot.command("send", async (ctx: Context) => {
-//   const client = await getClient(ctx.message?.from.username);
-//   if (client) {
-//     for (const post of client.posts) {
-//       if (post.photo) {
-//         await bot.telegram.sendPhoto(
-//           post.channelID ? post.channelID : client.chatID,
-//           post.photo,
-//           { caption: post.text }
-//         );
-//       } else {
-//         await bot.telegram.sendMessage(
-//           post.channelID ? post.channelID : client.chatID,
-//           post.text
-//         );
-//       }
-//     }
-//   }
-// });
-
 cron.schedule("0 */4 * * *", async () => {
   // cron.schedule("* * * * *", async () => {
   const clients = await getClient();
@@ -95,10 +75,6 @@ cron.schedule("0 */4 * * *", async () => {
       }
     }
   }
-});
-
-bot.hears("initiate", async (ctx: Context) => {
-  console.log(ctx);
 });
 
 const port = process.env.PORT || 3000;
