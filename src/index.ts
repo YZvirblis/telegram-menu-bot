@@ -8,7 +8,6 @@ import cron from "node-cron";
 import fs from "fs";
 
 const expressApp = express();
-bot.use(actions);
 
 // GEY USER ITEMS AND SAVE ON FILE
 const writeUserItems = async () => {
@@ -21,9 +20,12 @@ const writeUserItems = async () => {
   //@ts-ignore
   const items = JSON.stringify(client.items);
 
-  const fileStream = fs.createWriteStream(`${process.cwd()}/src/DB/items.json`);
+  const fileStream = await fs.createWriteStream(
+    `${process.cwd()}/src/DB/items.json`
+  );
   fileStream.write(items);
   fileStream.close;
+  bot.use(actions);
 };
 writeUserItems();
 
