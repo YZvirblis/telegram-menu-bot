@@ -1,6 +1,5 @@
 import mongoDB from "mongodb";
 import connectToDatabase from "./config/dbConfig";
-const actions = require("./actions/botActions");
 import { Context } from "telegraf";
 import bot from "./config/botConfig";
 import express from "express";
@@ -25,7 +24,7 @@ const writeUserItems = async () => {
   );
   fileStream.write(items);
   fileStream.close;
-  bot.use(actions);
+  bot.use(require("./actions/botActions"));
 };
 writeUserItems();
 

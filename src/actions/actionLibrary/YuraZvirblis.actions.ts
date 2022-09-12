@@ -14,14 +14,6 @@ const getUser = async () => {
   const client = await clients.findOne({ username: `${username}` });
   return client;
 };
-const getItems = async () => {
-  const db = await connectToDatabase();
-  //@ts-ignore
-  const clients: mongoDB.Collection = await db.collection("Clients");
-  const client = await clients.findOne({ username: `${username}` });
-  //@ts-ignore
-  return client.items.items1001705288428;
-};
 
 let cart: any = {};
 const username = "YuraZvirblis";
