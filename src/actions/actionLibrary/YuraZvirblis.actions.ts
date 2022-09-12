@@ -1,7 +1,7 @@
 import mongoDB from "mongodb";
 import { Composer, Context } from "telegraf";
 import bot from "../../config/botConfig";
-const data = require("../../DB/items.json");
+const data = require(`${process.cwd()}/src/DB/items.json`);
 import connectToDatabase from "../../config/dbConfig";
 import IValidationData from "../../Interfaces/IValidationData";
 import axios from "axios";
