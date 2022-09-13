@@ -87,39 +87,35 @@ const actions = Composer.action([
         : false;
     //@ts-ignore
     validationData.username = ctx.update.callback_query.from.username;
-    bot.telegram.sendPhoto(
-      ctx.chat?.id,
-      "AgACAgQAAxkBAAMEYwtrNSl8efBlScHRAAGxEo10B4DcAAJqujEbivRYUCUVChAAASBdOQEAAwIAA3MAAykE",
-      {
-        disable_notification: true,
-        caption: `${
-          formatCurrentCart() === null
-            ? ""
-            : ` \n\ . \n\ __סל הקניות שלך__: \n\ ${formatCurrentCart()} \n\ .`
-        }`,
-        parse_mode: "markdown",
-        reply_markup: {
-          inline_keyboard: [
-            [
-              {
-                text: "להזדהות / שליחת הזמנה 📝",
-                callback_data: `${
-                  isValidated
-                    ? "-1001791937124-action-1-checkout"
-                    : "-1001791937124-action-1-validate"
-                }`,
-              },
-            ],
-            [
-              {
-                text: "חזרה 🔙",
-                callback_data: `-1001791937124-action-1`,
-              },
-            ],
+    bot.telegram.sendPhoto(ctx.chat?.id, menuPicture, {
+      disable_notification: true,
+      caption: `${
+        formatCurrentCart() === null
+          ? ""
+          : ` \n\ . \n\ __סל הקניות שלך__: \n\ ${formatCurrentCart()} \n\ .`
+      }`,
+      parse_mode: "markdown",
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {
+              text: "להזדהות / שליחת הזמנה 📝",
+              callback_data: `${
+                isValidated
+                  ? "-1001791937124-action-1-checkout"
+                  : "-1001791937124-action-1-validate"
+              }`,
+            },
           ],
-        },
-      }
-    );
+          [
+            {
+              text: "חזרה 🔙",
+              callback_data: `-1001791937124-action-1`,
+            },
+          ],
+        ],
+      },
+    });
     ctx.answerCbQuery();
     ctx.deleteMessage();
   }),
@@ -132,25 +128,21 @@ const actions = Composer.action([
   }),
   // DISPLAY CHECKOUT MENU
   bot.action("-1001791937124-action-1-checkout", (ctx: Context) => {
-    bot.telegram.sendPhoto(
-      ctx.chat?.id,
-      "AgACAgQAAxkBAAMEYwtrNSl8efBlScHRAAGxEo10B4DcAAJqujEbivRYUCUVChAAASBdOQEAAwIAA3MAAykE",
-      {
-        disable_notification: true,
-        parse_mode: "markdown",
-        caption: `הזמנתכם התקבלה, המתינו בסבלנות ויצרו איתכם קשר 🙂`,
-        reply_markup: {
-          inline_keyboard: [
-            [
-              {
-                text: "חזרה לתפריט הראשי 🔙",
-                callback_data: `-1001791937124-action-0`,
-              },
-            ],
+    bot.telegram.sendPhoto(ctx.chat?.id, menuPicture, {
+      disable_notification: true,
+      parse_mode: "markdown",
+      caption: `הזמנתכם התקבלה, המתינו בסבלנות ויצרו איתכם קשר 🙂`,
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {
+              text: "חזרה לתפריט הראשי 🔙",
+              callback_data: `-1001791937124-action-0`,
+            },
           ],
-        },
-      }
-    );
+        ],
+      },
+    });
 
     bot.telegram.sendMessage(
       clientChatID,
@@ -384,47 +376,43 @@ const actions = Composer.action([
 ]);
 
 const getCategoriesMenu = (ctx: Context, data: any) => {
-  return bot.telegram.sendPhoto(
-    ctx.chat?.id,
-    "AgACAgQAAxkBAAMEYwtrNSl8efBlScHRAAGxEo10B4DcAAJqujEbivRYUCUVChAAASBdOQEAAwIAA3MAAykE",
-    {
-      disable_notification: true,
-      parse_mode: "markdown",
-      caption: `קטגוריות ${
-        formatCurrentCart() === null
-          ? ""
-          : ` \n\ . \n\ __סל הקניות שלך__: \n\ ${formatCurrentCart()} \n\ .`
-      }`,
-      reply_markup: {
-        inline_keyboard: [
-          [
-            {
-              text: "איפוס סל ❌",
-              callback_data: `-1001791937124-action-1-reset-cart`,
-            },
-            {
-              text: "סל קניות 🛒",
-              callback_data: `-1001791937124-action-1-cart`,
-            },
-          ],
-          ...data.map((item: any, index: any) => {
-            return [
-              {
-                text: item.category,
-                callback_data: `-1001791937124-action-1-${index + 1}`,
-              },
-            ];
-          }),
-          [
-            {
-              text: "חזרה 🔙",
-              callback_data: `-1001791937124-action-0`,
-            },
-          ],
+  return bot.telegram.sendPhoto(ctx.chat?.id, menuPicture, {
+    disable_notification: true,
+    parse_mode: "markdown",
+    caption: `קטגוריות ${
+      formatCurrentCart() === null
+        ? ""
+        : ` \n\ . \n\ __סל הקניות שלך__: \n\ ${formatCurrentCart()} \n\ .`
+    }`,
+    reply_markup: {
+      inline_keyboard: [
+        [
+          {
+            text: "איפוס סל ❌",
+            callback_data: `-1001791937124-action-1-reset-cart`,
+          },
+          {
+            text: "סל קניות 🛒",
+            callback_data: `-1001791937124-action-1-cart`,
+          },
         ],
-      },
-    }
-  );
+        ...data.map((item: any, index: any) => {
+          return [
+            {
+              text: item.category,
+              callback_data: `-1001791937124-action-1-${index + 1}`,
+            },
+          ];
+        }),
+        [
+          {
+            text: "חזרה 🔙",
+            callback_data: `-1001791937124-action-0`,
+          },
+        ],
+      ],
+    },
+  });
 };
 const getMainMenu = async (ctx: Context) => {
   const user = await getUser();
@@ -447,54 +435,50 @@ const getCategoryMenu = (
   index: any,
   newCart?: any
 ) => {
-  return bot.telegram.sendPhoto(
-    ctx.chat?.id,
-    "AgACAgQAAxkBAAMEYwtrNSl8efBlScHRAAGxEo10B4DcAAJqujEbivRYUCUVChAAASBdOQEAAwIAA3MAAykE",
-    {
-      disable_notification: true,
-      parse_mode: "markdown",
-      caption: `${category.category} ${
-        formatCurrentCart() === null
-          ? ""
-          : ` \n\ . \n\ __סל הקניות שלך__: \n\ ${formatCurrentCart()} \n\ .`
-      }`,
-      reply_markup: {
-        inline_keyboard: [
-          ...category.items.map((product: any, productIndex: any) => {
-            return [
-              {
-                text: "➕",
-                // callback_data: `-1001791937124-action-1-item`,
-                callback_data: `-1001791937124-action-1-${index + 1}-${
-                  productIndex + 1
-                }-add`,
-              },
-              {
-                text: product,
-                // callback_data: `-1001791937124-action-1-item`,
-                callback_data: `-1001791937124-action-1-${index + 1}-${
-                  productIndex + 1
-                }`,
-              },
-              {
-                text: "➖",
-                // callback_data: `-1001791937124-action-1-item`,
-                callback_data: `-1001791937124-action-1-${index + 1}-${
-                  productIndex + 1
-                }-subtract`,
-              },
-            ];
-          }),
-          [
+  return bot.telegram.sendPhoto(ctx.chat?.id, menuPicture, {
+    disable_notification: true,
+    parse_mode: "markdown",
+    caption: `${category.category} ${
+      formatCurrentCart() === null
+        ? ""
+        : ` \n\ . \n\ __סל הקניות שלך__: \n\ ${formatCurrentCart()} \n\ .`
+    }`,
+    reply_markup: {
+      inline_keyboard: [
+        ...category.items.map((product: any, productIndex: any) => {
+          return [
             {
-              text: "חזרה 🔙",
-              callback_data: `-1001791937124-action-1`,
+              text: "➕",
+              // callback_data: `-1001791937124-action-1-item`,
+              callback_data: `-1001791937124-action-1-${index + 1}-${
+                productIndex + 1
+              }-add`,
             },
-          ],
+            {
+              text: product,
+              // callback_data: `-1001791937124-action-1-item`,
+              callback_data: `-1001791937124-action-1-${index + 1}-${
+                productIndex + 1
+              }`,
+            },
+            {
+              text: "➖",
+              // callback_data: `-1001791937124-action-1-item`,
+              callback_data: `-1001791937124-action-1-${index + 1}-${
+                productIndex + 1
+              }-subtract`,
+            },
+          ];
+        }),
+        [
+          {
+            text: "חזרה 🔙",
+            callback_data: `-1001791937124-action-1`,
+          },
         ],
-      },
-    }
-  );
+      ],
+    },
+  });
 };
 const formatCurrentCart = () => {
   let currentCart: any = [];
