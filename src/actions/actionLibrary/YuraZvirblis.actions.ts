@@ -71,6 +71,7 @@ const actions = Composer.action([
           `-1001791937124-action-1-${catIndex + 1}-${itemIndex + 1}-subtract`,
           (ctx: Context) => {
             cart[item] = cart[item] ? cart[item] - 1 : 0;
+            if ((cart[item] = 0)) delete cart[item];
             getCategoryMenu(ctx, category, catIndex, formatCurrentCart());
             ctx.answerCbQuery();
             ctx.deleteMessage();
