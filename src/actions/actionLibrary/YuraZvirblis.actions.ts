@@ -128,7 +128,6 @@ const actions = Composer.action([
   }),
   // DISPLAY CHECKOUT MENU
   bot.action("-1001791937124-action-1-checkout", (ctx: Context) => {
-    cart = {};
     bot.telegram.sendPhoto(ctx.chat?.id, menuPicture, {
       disable_notification: true,
       parse_mode: "markdown",
@@ -150,12 +149,13 @@ const actions = Composer.action([
       `
     יש לך הזמנה חדשה מ[${ctx.callbackQuery?.from.username}](tg://user?id=${
         ctx.callbackQuery?.from.id
-      }) \n\ ${formatCurrentCart()} \n\ .
+      }) \n\ ${formatCurrentCart() === null ? "" : formatCurrentCart()} \n\ .
     `,
       {
         parse_mode: "markdown",
       }
     );
+    cart = {};
     ctx.answerCbQuery();
     ctx.deleteMessage();
   }),
@@ -489,7 +489,7 @@ const formatCurrentCart = () => {
   for (const item in cart) {
     currentCart.push({ name: item, quantity: cart[item] });
   }
-  if (currentCart.length > 0) {
+  if (currentCart.length > 0 && currentCart[0].length > 0) {
     return `${currentCart
       .map((item: any) => {
         if (item.quantity > 0) {
