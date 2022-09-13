@@ -20,7 +20,7 @@ const username = "YuraZvirblis";
 const clientChatID = "969904554";
 const groupID = "-1001791937124";
 const menuPicture =
-  "AgACAgQAAxkBAAMEYwtrNSl8efBlScHRAAGxEo10B4DcAAJqujEbivRYUCUVChAAASBdOQEAAwIAA3MAAykE";
+  "AgACAgQAAxkBAANJYyBHy_S76peFWyLuHNIsvOyX9nYAAhu6MRuPxgABUaL_dCQV8Vi6AQADAgADcwADKQQ";
 const validationData: IValidationData = {};
 let isAwaitingVideoNote = false;
 let isAwaitingID = false;
