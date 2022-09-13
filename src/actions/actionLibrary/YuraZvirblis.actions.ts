@@ -128,6 +128,7 @@ const actions = Composer.action([
   }),
   // DISPLAY CHECKOUT MENU
   bot.action("-1001791937124-action-1-checkout", (ctx: Context) => {
+    cart = {};
     bot.telegram.sendPhoto(ctx.chat?.id, menuPicture, {
       disable_notification: true,
       parse_mode: "markdown",
