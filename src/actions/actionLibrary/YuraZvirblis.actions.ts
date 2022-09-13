@@ -489,7 +489,7 @@ const formatCurrentCart = () => {
   for (const item in cart) {
     currentCart.push({ name: item, quantity: cart[item] });
   }
-  if (currentCart.length > 0 && currentCart[0].length > 0) {
+  if (currentCart.length > 0 && currentCart[0]?.name?.length > 0) {
     return `${currentCart
       .map((item: any) => {
         if (item.quantity > 0) {
