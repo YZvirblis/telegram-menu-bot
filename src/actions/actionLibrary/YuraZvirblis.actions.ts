@@ -362,13 +362,17 @@ const actions = Composer.action([
           //@ts-ignore
           ctx.update.message.text.split("\u002Fverify ")[1]
         );
-      const res = await axios.put(
-        //@ts-ignore
-        process.env.ADMIN_CLIENT_CONTROLLER,
-        { client: currentUser }
-      );
-      if (res.data.lastErrorObject.updatedExisting) {
-        ctx.reply("הלקוח אומת בהצלחה");
+      try {
+        const res = await axios.put(
+          //@ts-ignore
+          process.env.ADMIN_CLIENT_CONTROLLER,
+          { client: currentUser }
+        );
+        if (res.data.lastErrorObject.updatedExisting) {
+          ctx.reply("הלקוח אומת בהצלחה");
+        }
+      } catch {
+        (err: any) => console.log(err);
       }
     }
   }),
