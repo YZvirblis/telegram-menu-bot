@@ -256,7 +256,6 @@ const actions = Composer.action([
           ],
         },
       });
-      messageToDelete = ctx.update.callback_query.message?.message_id;
     }
   }),
   // BOT AWAITS PHOTO INPUT
